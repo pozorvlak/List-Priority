@@ -1,4 +1,16 @@
 Revision history for Perl extension List::Priority.
 
+0.02  Fri Jun 14 15:34:02 2002
+	- Added support for a size limit on the list. 
+	  If you reach and attempt to insert more elements, most recent lower 
+	  priority elements already in the list will be overriden, but if you
+	  attempt to insert higher priority objects.
+
+	- Added a reversed extraction method - shift(), which will extract 
+	  the most recent and lowest priority object from the list.
+
+	- Added an optional parameter to allow extraction from a specific priority.
+
+
 0.01  Tue Mar 12 22:34:02 2002
 	- First release

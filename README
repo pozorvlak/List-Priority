@@ -9,7 +9,7 @@ SYNOPSIS
       use List::Priority;
   
       # Create an instance
-      $list = List::Priority->new();
+      my $list = List::Priority->new();
   
       # Insert some elements, each woth a unique priority
       $list->insert(2,'World!');
@@ -17,8 +17,8 @@ SYNOPSIS
       $list->insert(3,' ');
   
       # Print
-      while ($list->pop()) {
-              print $_;
+      while (my $element = $list->pop()) {
+              print $element;
       }
 
 DESCRIPTION
