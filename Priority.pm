@@ -111,7 +111,7 @@ sub shift {
 	}
 	else {
 		# Find out the bottom priority
-		($bottom_priority) = (sort {$b <=> $a} keys %{$self->{queues}});
+		($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
 		return undef unless (defined ($bottom_priority));
 	}
 
