@@ -127,6 +127,11 @@ sub shift {
 	return $object;
 }
 
+sub size {
+	my ($self) = @_;
+	return $self->{size};
+}
+
 1;
 __END__
 # Documentation
@@ -149,6 +154,7 @@ List::Priority - Perl extension for a list that manipulates objects by their pri
   $list->insert(3,' ');
   
   # Print
+  print $list->size()			# prints 3
   while (my $element = $list->pop()) {
   	  print $element;
   }
@@ -242,6 +248,17 @@ Return value:
 
 The object on success, undef upon failure
 
+=item B<size> - The number of elements in the list
+
+  $num_elts = $p_list->size();
+
+Arguments:
+
+None.
+
+Return value:
+
+The number of elements in the priority queue.
 
 =head1 EXPORT
 
