@@ -27,7 +27,7 @@ sub new {
 # Duplicates are not allowed - might be optional if needed in the future
 sub insert {
 	# Arguments check
-	return 'List::Priority - Expected 3 arguements!' if (scalar(@_) != 3);
+	return 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
 	
 	# Argument assignment
 	my $self = shift;
@@ -71,7 +71,7 @@ sub insert {
 
 sub pop {
 	# Arguments check
-	return 'List::Priority - Pop expected 1 or 2 arguements!' 
+	return 'List::Priority - Pop expected 1 or 2 arguments!' 
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 
 	my ($self, $top_priority) = @_;
@@ -100,7 +100,7 @@ sub pop {
 
 sub shift {
 	# Arguments check
-	return 'List::Priority - Unshift expected 1 or 2 arguements!' 
+	return 'List::Priority - Unshift expected 1 or 2 arguments!' 
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 
 	my ($self, $bottom_priority) = @_;
@@ -162,12 +162,12 @@ List::Priority - Perl extension for a list that manipulates objects by their pri
 
 =head1 DESCRIPTION
 
-If you want to handle multiple data bits by their order of importance -
-This one's for you.
+If you want to handle multiple data bits by their order of importance,
+this one's for you.
 
 Logic:
 Precedence to highest priority object.
-If more than one object hold the highest priority - FIFO is king.
+If more than one object holds the highest priority, FIFO is king.
 
 Duplicate objects are currently not allowed.
 
@@ -273,6 +273,8 @@ Well, I'm dangerously neglecting the testing bit...
 =head1 AUTHOR
 
 Eyal Udassin, <eyaludassin@hotmail.com>
+
+Thanks to Maik Hentsche for bugfixes.
 
 
 =head1 SEE ALSO
