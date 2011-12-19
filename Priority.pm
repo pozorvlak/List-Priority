@@ -148,7 +148,7 @@ List::Priority - Perl extension for a list that manipulates objects by their pri
   # Create an instance
   my $list = List::Priority->new();
   
-  # Insert some elements, each woth a unique priority
+  # Insert some elements, each with a unique priority
   $list->insert(2,'World!');
   $list->insert(5,'Hello');
   $list->insert(3,' ');
