@@ -280,6 +280,10 @@ Currently maintained by Miles Gould, <miles@assyrian.org.uk>
 
 Thanks to Maik Hentsche for bugfixes.
 
+=head1 CONTRIBUTING
+
+You can find the Git repository at L<http://github.com/pozorvlak/List-Priority>.
+
 =head1 SEE ALSO
 
 L<Set::Scalar>, L<List::PriorityQueue>, L<Hash::PriorityQueue>, L<POE::Queue>,
