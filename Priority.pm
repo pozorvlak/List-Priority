@@ -282,6 +282,7 @@ Thanks to Maik Hentsche for bugfixes.
 
 =head1 SEE ALSO
 
-L<Set::Scalar>.
+L<Set::Scalar>, L<List::PriorityQueue>, L<Hash::PriorityQueue>, L<POE::Queue>,
+L<Timeout::Queue>, L<Data::PrioQ::SkewBinomial>.
 
 =cut
