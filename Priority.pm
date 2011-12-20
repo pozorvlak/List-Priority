@@ -269,7 +269,7 @@ None. All interfaces are OO.
 
 =head1 TODO
 
-Well, I'm dangerously neglecting the testing bit...
+More tests.
 
 
 =head1 AUTHOR
