@@ -51,7 +51,7 @@ sub insert {
 		$self->{options}{SIZE} <= $self->{size}) 
 	{
 		my ($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
-		# And the object's priority is higher then the lowest on on the list 
+		# And the object's priority is higher than the lowest on on the list 
 		# - remove the lowest one to insert it
 		if ($priority > $bottom_priority) {
 			$self->shift($bottom_priority);
@@ -274,8 +274,9 @@ Well, I'm dangerously neglecting the testing bit...
 
 Eyal Udassin, <eyaludassin@hotmail.com>
 
-Thanks to Maik Hentsche for bugfixes.
+Currently maintained by Miles Gould, <miles@assyrian.org.uk>
 
+Thanks to Maik Hentsche for bugfixes.
 
 =head1 SEE ALSO
 
