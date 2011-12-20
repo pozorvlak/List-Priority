@@ -260,6 +260,8 @@ Return value:
 
 The number of elements in the priority queue.
 
+=back
+
 =head1 EXPORT
 
 None. All interfaces are OO.
