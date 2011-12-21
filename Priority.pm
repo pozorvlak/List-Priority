@@ -286,7 +286,7 @@ You can find the Git repository at L<http://github.com/pozorvlak/List-Priority>.
 
 =head1 SEE ALSO
 
-L<Set::Scalar>, L<List::PriorityQueue>, L<Hash::PriorityQueue>, L<POE::Queue>,
-L<Timeout::Queue>, L<Data::PrioQ::SkewBinomial>.
+L<Heap::Priority>, L<List::PriorityQueue>, L<Hash::PriorityQueue>,
+L<POE::Queue>, L<Timeout::Queue>, L<Data::PrioQ::SkewBinomial>.
 
 =cut
