@@ -180,85 +180,70 @@ excellent book "Effective Perl Programming" for one of the code hacks...
 =over 4
 
 
-=item B<new> - Constructor
+=item B<new>
 
   $p_list = List::Priority->new();
 
-B<new> is the constructor for List::Priority objects
+B<new> is the constructor for List::Priority objects. It accepts a key-value
+list with the list attributes.
 
-Arguments:
+=over 
 
-- Accepts an Key-Value list with the list attributes.
+=item * B<SIZE>
 
-  Key: SIZE - The maximum size of the list.
-              Inserting after the size is reached will result
-              either in a no-op, or the removal of the most recent
-              lowest priority objects - according to the insert()'s
-              priority.
+The maximum size of the list.
 
-              Example : $list = List::Priority->new(SIZE => 10);
+Inserting after the size is reached will result
+either in a no-op, or the removal of the most recent
+lowest priority objects, according to the C<insert()>'s
+priority.
 
-=item B<insert> - List insertion
+  $list = List::Priority->new(SIZE => 10);
+
+=back
+
+=item B<insert>
 
   $result = $p_list->insert($priority, $scalar);
 
-Inserts the scalar to the list
+Inserts the scalar to the list.
 
-Arguments:
+C<$priority> must be numeric.
 
- 1. Priority must be numeric.
- 2. Scalar can be any scalar, including references (objects)
+C<$scalar> can be any scalar, including references (objects).
 
-Return value:
+Returns 1 on success, and a string describing the error upon failure.
 
-1 on success, a string describing the error upon failure
-
-=item B<pop> - List extraction
+=item B<pop>
 
   $object = $p_list->pop();
 
-Extracts the scalar from the list according to the specified logic.
+Extracts the highest-priority scalar from the list.
+As an optional argument, takes the specific priority value to pop from, instead
+of the most important one.
 
-Arguments:
+  $best_object_p3 = $list->pop(3);
 
-- Optional - The specific priority value to pop from,
-             instead of the most important one.
+Returns the object on success, C<undef> upon failure.
 
-             Example : $best_object_p3 = $list->pop(3);
-
-Return value:
-
-The object on success, undef upon failure
-
-=item B<shift> - Reversed list extraction
+=item B<shift>
 
   $object = $p_list->shift();
 
-Extracts the scalar from the list according to the B<reversed> specified logic (least worthy first).
+Extracts the B<lowest>-priority scalar from the list.
 
-Arguments:
+As an optional argument, takes the specific priority value to shift from,
+instead of the least important one.
 
-- Optional
-           - The specific priority value to shift from,
-             instead of the least important one.
+  $worst_object_p3 = $list->shift(3);
 
-             Example : $worst_object_p3 = $list->shift(3);
+Returns the object on success, C<undef> upon failure.
 
-Return value:
-
-The object on success, undef upon failure
-
-=item B<size> - The number of elements in the list
+=item B<size>
 
   $num_elts = $p_list->size();
 
-Arguments:
-
-None.
-
-Return value:
-
-The number of elements in the priority queue.
+Takes no arguments. Returns the number of elements in the priority queue.
 
 =back
 
