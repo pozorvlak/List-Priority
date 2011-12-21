@@ -1,12 +1,14 @@
 Revision history for Perl extension List::Priority.
 
-0.03rc1 Tue Dec 20
+0.03  Tue Dec 20
 	- Fixed shift() method, which now behaves as documented.
 
 	- Added size() method, which reports number of items currently in the
 	  list.
 
 	- Some documentation cleanup.
+
+	- Added some tests.
 
 0.02  Fri Jun 14 15:34:02 2002
 	- Added support for a size limit on the list.
