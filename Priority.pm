@@ -162,18 +162,22 @@ List::Priority - Perl extension for a list that manipulates objects by their pri
 
 =head1 DESCRIPTION
 
-If you want to handle multiple data bits by their order of importance,
+If you want to handle multiple data items by their order of importance,
 this one's for you.
 
-Logic:
-Precedence to highest priority object.
-If more than one object holds the highest priority, FIFO is king.
+You may retrieve the highest-priority item from the list using C<pop()>, or the
+lowest-priority item from the list using C<shift()>. If two items have the same
+priority, they are returned in first-in, first-out order. New items are
+inserted using C<insert()>.
+
+You can constrain the capacity of the list using the C<SIZE> parameter at
+construction time. Low-priority items are automatically evicted once the
+specified capacity is exceeded. By default the list's capacity is unlimited.
 
 Duplicate objects are currently not allowed.
 
 I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
-excellent book "Effective Perl Programming" for one of the code hacks...
-
+excellent book "Effective Perl Programming" for one of the code hacks.
 
 =head1 METHODS
 
