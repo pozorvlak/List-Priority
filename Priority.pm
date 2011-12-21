@@ -174,7 +174,8 @@ You can constrain the capacity of the list using the C<SIZE> parameter at
 construction time. Low-priority items are automatically evicted once the
 specified capacity is exceeded. By default the list's capacity is unlimited.
 
-Duplicate objects are currently not allowed.
+It is currently not allowed to insert the same object (determined by C<eq>)
+twice with the same priority.
 
 I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
 excellent book "Effective Perl Programming" for one of the code hacks.
