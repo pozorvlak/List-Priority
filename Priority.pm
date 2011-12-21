@@ -5,7 +5,7 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 
-$VERSION = '0.03rc1';
+$VERSION = '0.03';
 
 
 # Constructor. Enables Inheritance
