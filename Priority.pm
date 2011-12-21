@@ -24,7 +24,6 @@ sub new {
 }
 
 # Insert an element into the list
-# Duplicates are not allowed - might be optional if needed in the future
 sub insert {
 	# Arguments check
 	return 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
@@ -37,14 +36,6 @@ sub insert {
 	# Check that priority is numeric - Thanks Randel/Joseph!
 	return 'List::Priority - Priority must be numeric!'
 		if ((~$priority & $priority) ne '0');
-
-	# Check that the object isn't already in the list
-	if (defined($self->{queues}{$priority})) {
-	    foreach (@{$self->{queues}{$priority}}) {
-			next if ($_ ne $object);
-			return 'List::Priority - Object already on the list';
-		}
-	}
 
 	# If the list is full
 	if (exists($self->{options}{SIZE}) and
