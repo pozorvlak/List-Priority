@@ -7,15 +7,15 @@ NAME
 
 SYNOPSIS
       use List::Priority;
-  
+
       # Create an instance
       my $list = List::Priority->new();
-  
+
       # Insert some elements, each woth a unique priority
       $list->insert(2,'World!');
       $list->insert(5,'Hello');
       $list->insert(3,' ');
-  
+
       # Print
       while (my $element = $list->pop()) {
               print $element;
@@ -45,5 +45,5 @@ To install this module type the following:
 
 Copyright (C) 2002 Eyal Udassin
 This library is free software; you can redistribute it and/or modify
-it under the same terms as Perl itself. 
+it under the same terms as Perl itself.
 
