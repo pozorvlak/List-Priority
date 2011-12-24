@@ -4,6 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 use vars qw($VERSION);
+use List::Util qw/min max/;
 
 $VERSION = '0.03';
 
@@ -50,8 +51,8 @@ sub insert {
 	if (exists($self->{options}{SIZE}) and
 		$self->{options}{SIZE} <= $self->{size})
 	{
-		my ($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
-		# And the object's priority is higher than the lowest on on the list
+		my ($bottom_priority) = min(keys %{$self->{queues}});
+		# And the object's priority is higher than the lowest on the list
 		# - remove the lowest one to insert it
 		if ($priority > $bottom_priority) {
 			$self->shift($bottom_priority);
@@ -82,7 +83,7 @@ sub pop {
 	}
 	else {
 		# Find out the top priority
-		($top_priority) = (sort {$b <=> $a} keys %{$self->{queues}});
+		($top_priority) = max(keys %{$self->{queues}});
 		return undef unless (defined ($top_priority));
 	}
 
@@ -111,7 +112,7 @@ sub shift {
 	}
 	else {
 		# Find out the bottom priority
-		($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
+		($bottom_priority) = min(keys %{$self->{queues}});
 		return undef unless (defined ($bottom_priority));
 	}
 
