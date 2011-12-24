@@ -135,6 +135,17 @@ sub size {
 	return $self->{size};
 }
 
+sub capacity {
+	my ($self, $new_capacity) = @_;
+	if (defined $new_capacity) {
+		$self->{options}{capacity} = $new_capacity;
+		while ($self->size > $new_capacity) {
+			$self->shift;
+		}
+	}
+	return $self->{options}{capacity};
+}
+
 1;
 __END__
 # Documentation
@@ -259,6 +270,15 @@ Returns the object on success, C<undef> upon failure.
   $num_elts = $p_list->size();
 
 Takes no arguments. Returns the number of elements in the priority queue.
+
+=item B<capacity>
+
+  my $capacity = $l->capacity();
+  $l->capacity($new_capacity);
+
+Get/set the list's capacity. If called with an argument, sets the capacity to
+that value, discarding any excess low-priority items. Returns the (new)
+capacity.
 
 =back
 
