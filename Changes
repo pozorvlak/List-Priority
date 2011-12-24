@@ -1,5 +1,17 @@
 Revision history for Perl extension List::Priority.
 
+0.04  Sun Dec 25 2011
+	- No longer sorts all keys on pop/shift.
+
+	- Croak on mal-formed arguments, rather than returning error messages
+	  in strings.
+
+	- Renamed "SIZE" to "capacity"; added getter/setter.
+
+	- Removed the restriction on duplicate items.
+
+	- Some documentation clarifications.
+
 0.03  Tue Dec 20
 	- Fixed shift() method, which now behaves as documented.
 
