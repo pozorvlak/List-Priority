@@ -1,9 +1,13 @@
 Revision history for Perl extension List::Priority.
 
 0.04  Sun Dec 25 2011
-	- No longer sorts all keys on pop/shift.
+	- Various API changes (as detailed below): be sure to update client
+	  code.
 
-	- Croak on mal-formed arguments, rather than returning error messages
+	- Uses min/max rather than sorting all keys on pop/shift, for Greater
+	  Speed. This introduces a dependency on List::Util.
+
+	- Croak on malformed arguments, rather than returning error messages
 	  in strings.
 
 	- Renamed "SIZE" to "capacity"; added getter/setter.
@@ -13,6 +17,9 @@ Revision history for Perl extension List::Priority.
 	- Some documentation clarifications.
 
 0.03  Tue Dec 20
+	- Bugfix release: use this version if you really, really need to stick
+	  to the v0.02 API.
+
 	- Fixed shift() method, which now behaves as documented.
 
 	- Added size() method, which reports number of items currently in the
@@ -31,7 +38,8 @@ Revision history for Perl extension List::Priority.
 	- Added a reversed extraction method - shift(), which will extract
 	  the most recent and lowest priority object from the list.
 
-	- Added an optional parameter to allow extraction from a specific priority.
+	- Added an optional parameter to allow extraction from a specific
+	  priority.
 
 
 0.01  Tue Mar 12 22:34:02 2002
