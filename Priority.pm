@@ -7,7 +7,7 @@ use vars qw($VERSION);
 use Carp;
 use List::Util qw/min max/;
 
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 
 # Constructor. Enables Inheritance
