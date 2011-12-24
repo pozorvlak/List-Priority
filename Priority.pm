@@ -213,6 +213,8 @@ priority.
 A synonym for C<capacity>, retained for backwards compatibility. If you specify
 both a C<SIZE> and a C<capacity> parameter, C<SIZE> will be ignored.
 
+This option is deprecated, and may disappear in a future release.
+
 =back
 
 =item B<insert>
