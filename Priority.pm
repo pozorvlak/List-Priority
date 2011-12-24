@@ -4,6 +4,7 @@ use 5.006;
 use strict;
 use warnings;
 use vars qw($VERSION);
+use Carp;
 
 $VERSION = '0.03';
 
@@ -27,7 +28,7 @@ sub new {
 # Duplicates are not allowed - might be optional if needed in the future
 sub insert {
 	# Arguments check
-	return 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
+	croak 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
 
 	# Argument assignment
 	my $self = shift;
@@ -35,7 +36,7 @@ sub insert {
 	my $object = shift;
 
 	# Check that priority is numeric - Thanks Randel/Joseph!
-	return 'List::Priority - Priority must be numeric!'
+	croak 'List::Priority - Priority must be numeric!'
 		if ((~$priority & $priority) ne '0');
 
 	# Check that the object isn't already in the list
@@ -71,7 +72,7 @@ sub insert {
 
 sub pop {
 	# Arguments check
-	return 'List::Priority - Pop expected 1 or 2 arguments!'
+	croak 'List::Priority - Pop expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 
 	my ($self, $top_priority) = @_;
@@ -100,7 +101,7 @@ sub pop {
 
 sub shift {
 	# Arguments check
-	return 'List::Priority - Unshift expected 1 or 2 arguments!'
+	croak 'List::Priority - shift expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 
 	my ($self, $bottom_priority) = @_;
