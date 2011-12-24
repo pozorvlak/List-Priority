@@ -5,6 +5,7 @@ use strict;
 use warnings;
 use vars qw($VERSION);
 use Carp;
+use List::Util qw/min max/;
 
 $VERSION = '0.03';
 
@@ -17,15 +18,17 @@ sub new {
 	bless $self, $class;
 	if (@_) {
 		my %options = @_;
+		if (!exists $options{capacity} && exists $options{SIZE}) {
+			$options{capacity} = $options{SIZE};
+		}
+		delete $options{SIZE};
 		$self->{options} = \%options;
 	}
-
 	$self->{size} = 0;
 	return $self;
 }
 
 # Insert an element into the list
-# Duplicates are not allowed - might be optional if needed in the future
 sub insert {
 	# Arguments check
 	croak 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
@@ -39,20 +42,12 @@ sub insert {
 	croak 'List::Priority - Priority must be numeric!'
 		if ((~$priority & $priority) ne '0');
 
-	# Check that the object isn't already in the list
-	if (defined($self->{queues}{$priority})) {
-	    foreach (@{$self->{queues}{$priority}}) {
-			next if ($_ ne $object);
-			return 'List::Priority - Object already on the list';
-		}
-	}
-
 	# If the list is full
-	if (exists($self->{options}{SIZE}) and
-		$self->{options}{SIZE} <= $self->{size})
+	if (exists($self->{options}{capacity}) and
+		$self->{options}{capacity} <= $self->{size})
 	{
-		my ($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
-		# And the object's priority is higher than the lowest on on the list
+		my ($bottom_priority) = min(keys %{$self->{queues}});
+		# And the object's priority is higher than the lowest on the list
 		# - remove the lowest one to insert it
 		if ($priority > $bottom_priority) {
 			$self->shift($bottom_priority);
@@ -83,7 +78,7 @@ sub pop {
 	}
 	else {
 		# Find out the top priority
-		($top_priority) = (sort {$b <=> $a} keys %{$self->{queues}});
+		($top_priority) = max(keys %{$self->{queues}});
 		return undef unless (defined ($top_priority));
 	}
 
@@ -112,7 +107,7 @@ sub shift {
 	}
 	else {
 		# Find out the bottom priority
-		($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
+		($bottom_priority) = min(keys %{$self->{queues}});
 		return undef unless (defined ($bottom_priority));
 	}
 
@@ -131,6 +126,17 @@ sub shift {
 sub size {
 	my ($self) = @_;
 	return $self->{size};
+}
+
+sub capacity {
+	my ($self, $new_capacity) = @_;
+	if (defined $new_capacity) {
+		$self->{options}{capacity} = $new_capacity;
+		while ($self->size > $new_capacity) {
+			$self->shift;
+		}
+	}
+	return $self->{options}{capacity};
 }
 
 1;
@@ -171,7 +177,7 @@ lowest-priority item from the list using C<shift()>. If two items have the same
 priority, they are returned in first-in, first-out order. New items are
 inserted using C<insert()>.
 
-You can constrain the capacity of the list using the C<SIZE> parameter at
+You can constrain the capacity of the list using the C<capacity> parameter at
 construction time. Low-priority items are automatically evicted once the
 specified capacity is exceeded. By default the list's capacity is unlimited.
 
@@ -195,7 +201,7 @@ list with the list attributes.
 
 =over 
 
-=item * B<SIZE>
+=item * B<capacity>
 
 The maximum size of the list.
 
@@ -204,7 +210,14 @@ either in a no-op, or the removal of the most recent
 lowest priority objects, according to the C<insert()>'s
 priority.
 
-  $list = List::Priority->new(SIZE => 10);
+  $list = List::Priority->new(capacity => 10);
+
+=item * B<SIZE>
+
+A synonym for C<capacity>, retained for backwards compatibility. If you specify
+both a C<SIZE> and a C<capacity> parameter, C<SIZE> will be ignored.
+
+This option is deprecated, and may disappear in a future release.
 
 =back
 
@@ -250,6 +263,15 @@ Returns the object on success, C<undef> upon failure.
   $num_elts = $p_list->size();
 
 Takes no arguments. Returns the number of elements in the priority queue.
+
+=item B<capacity>
+
+  my $capacity = $l->capacity();
+  $l->capacity($new_capacity);
+
+Get/set the list's capacity. If called with an argument, sets the capacity to
+that value, discarding any excess low-priority items. Returns the (new)
+capacity.
 
 =back
 

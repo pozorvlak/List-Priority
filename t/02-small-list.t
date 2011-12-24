@@ -18,8 +18,8 @@ is($list->pop(), 'Hello', 'Most important element');
 is($list->size(), 2, "Size of list is 2 after popping");
 
 my $error = $list->insert(2,'World!');
-is($error, 'List::Priority - Object already on the list', 'Duplicate element');
-is($list->size(), 2, "Size of list unchanged after failed insertion");
+is($list->size(), 3, "Duplicate elements can be added");
+is($list->shift(), 'World!', 'Duplicate element removed');
 
 for my $count (6..12) {
         $list->insert($count, "element$count");
