@@ -163,9 +163,6 @@ You can constrain the capacity of the list using the C<capacity> parameter at
 construction time. Low-priority items are automatically evicted once the
 specified capacity is exceeded. By default the list's capacity is unlimited.
 
-It is currently not allowed to insert the same object (determined by C<eq>)
-twice with the same priority.
-
 I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
 excellent book "Effective Perl Programming" for one of the code hacks.
 
@@ -223,6 +220,8 @@ Extracts the highest-priority scalar from the list.
 As an optional argument, takes the specific priority value to pop from, instead
 of the most important one.
 
+  # first-added object whose priority is 3
+  # NB: _not_ the first-added object whose priority is >= 3
   $best_object_p3 = $list->pop(3);
 
 Returns the object on success, C<undef> upon failure.
@@ -236,6 +235,8 @@ Extracts the B<lowest>-priority scalar from the list.
 As an optional argument, takes the specific priority value to shift from,
 instead of the least important one.
 
+  # first-added object whose priority is 3
+  # NB: _not_ the first-added object whose priority is <= 3
   $worst_object_p3 = $list->shift(3);
 
 Returns the object on success, C<undef> upon failure.
