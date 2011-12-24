@@ -16,9 +16,12 @@ sub new {
 	bless $self, $class;
 	if (@_) {
 		my %options = @_;
+		if (!exists $options{capacity} && exists $options{SIZE}) {
+			$options{capacity} = $options{SIZE};
+		}
+		delete $options{SIZE};
 		$self->{options} = \%options;
 	}
-
 	$self->{size} = 0;
 	return $self;
 }
@@ -47,8 +50,8 @@ sub insert {
 	}
 
 	# If the list is full
-	if (exists($self->{options}{SIZE}) and
-		$self->{options}{SIZE} <= $self->{size})
+	if (exists($self->{options}{capacity}) and
+		$self->{options}{capacity} <= $self->{size})
 	{
 		my ($bottom_priority) = (sort {$a <=> $b} keys %{$self->{queues}});
 		# And the object's priority is higher than the lowest on on the list
@@ -170,7 +173,7 @@ lowest-priority item from the list using C<shift()>. If two items have the same
 priority, they are returned in first-in, first-out order. New items are
 inserted using C<insert()>.
 
-You can constrain the capacity of the list using the C<SIZE> parameter at
+You can constrain the capacity of the list using the C<capacity> parameter at
 construction time. Low-priority items are automatically evicted once the
 specified capacity is exceeded. By default the list's capacity is unlimited.
 
@@ -194,7 +197,7 @@ list with the list attributes.
 
 =over 
 
-=item * B<SIZE>
+=item * B<capacity>
 
 The maximum size of the list.
 
@@ -203,7 +206,12 @@ either in a no-op, or the removal of the most recent
 lowest priority objects, according to the C<insert()>'s
 priority.
 
-  $list = List::Priority->new(SIZE => 10);
+  $list = List::Priority->new(capacity => 10);
+
+=item * B<SIZE>
+
+A synonym for C<capacity>, retained for backwards compatibility. If you specify
+both a C<SIZE> and a C<capacity> parameter, C<SIZE> will be ignored.
 
 =back
 
