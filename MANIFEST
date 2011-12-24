@@ -4,3 +4,7 @@ MANIFEST
 Priority.pm
 README
 test.pl
+t/00-load.t
+t/02-small-list.t
+t/03-capacity.t
+t/04-duplicates.t
