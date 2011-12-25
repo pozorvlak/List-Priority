@@ -32,9 +32,8 @@ DESCRIPTION
     New items are inserted using "insert()".
 
     You can constrain the capacity of the list using the "capacity"
-    parameter at construction time. Low-priority items are automatically
-    evicted once the specified capacity is exceeded. By default the list's
-    capacity is unlimited.
+    parameter. Low-priority items are automatically evicted once the specified
+    capacity is exceeded. By default the list's capacity is unlimited.
 
     I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
     excellent book "Effective Perl Programming" for one of the code hacks.
