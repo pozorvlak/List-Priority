@@ -40,7 +40,7 @@ sub insert {
 	croak 'List::Priority - Priority must be numeric!'
 		if ((~$priority & $priority) ne '0');
 	# If the list is full
-	if (exists($self->{options}{capacity}) and
+	if (defined($self->{options}{capacity}) and
 		$self->{options}{capacity} <= $self->{size}) {
 		my ($bottom_priority) = min(keys %{$self->{queues}});
 		# And the object's priority is higher than the lowest on the list
@@ -112,10 +112,12 @@ sub size {
 
 sub capacity {
 	my ($self, $new_capacity) = @_;
-	if (defined $new_capacity) {
+	if (@_ > 1) {
 		$self->{options}{capacity} = $new_capacity;
-		while ($self->size > $new_capacity) {
-			$self->shift;
+		if (defined $new_capacity) { 
+			while ($self->size > $new_capacity) {
+				$self->shift;
+			}
 		}
 	}
 	return $self->{options}{capacity};
@@ -127,7 +129,8 @@ __END__
 
 =head1 NAME
 
-List::Priority - Perl extension for a list that manipulates objects by their priority
+List::Priority - Perl extension for a list that manipulates objects by their
+priority
 
 
 =head1 SYNOPSIS
@@ -159,9 +162,9 @@ lowest-priority item from the list using C<shift()>. If two items have the same
 priority, they are returned in first-in, first-out order. New items are
 inserted using C<insert()>.
 
-You can constrain the capacity of the list using the C<capacity> parameter at
-construction time. Low-priority items are automatically evicted once the
-specified capacity is exceeded. By default the list's capacity is unlimited.
+You can constrain the capacity of the list using the C<capacity> parameter.
+Low-priority items are automatically evicted once the specified capacity is
+exceeded. By default the list's capacity is unlimited.
 
 I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
 excellent book "Effective Perl Programming" for one of the code hacks.
@@ -184,10 +187,9 @@ list with the list attributes.
 
 The maximum size of the list.
 
-Inserting after the size is reached will result
-either in a no-op, or the removal of the most recent
-lowest priority objects, according to the C<insert()>'s
-priority.
+Inserting after the size is reached will result either in a no-op, or the
+removal of the most recent lowest priority objects, according to the
+C<insert()>'s priority.
 
   $list = List::Priority->new(capacity => 10);
 
@@ -249,12 +251,16 @@ Takes no arguments. Returns the number of elements in the priority queue.
 
 =item B<capacity>
 
-  my $capacity = $l->capacity();
-  $l->capacity($new_capacity);
+  my $capacity = $l->capacity();  # get capacity
+  $l->capacity($new_capacity);    # set capacity to $new_capacity
+  $l->capacity(undef);            # set capacity to infinity
 
 Get/set the list's capacity. If called with an argument, sets the capacity to
-that value, discarding any excess low-priority items. Returns the (new)
-capacity.
+that value, discarding any excess low-priority items. To make the capacity
+infinite (the default for new lists), call C<capacity()> with an explicit
+undefined argument.
+
+Returns the (new) capacity.
 
 =back
 
