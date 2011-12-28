@@ -166,6 +166,23 @@ You can constrain the capacity of the list using the C<capacity> parameter.
 Low-priority items are automatically evicted once the specified capacity is
 exceeded. By default the list's capacity is unlimited.
 
+Currently insertion (in ordered or random order) is constant-time, but C<shift>
+and C<pop> are linear in the number of priorities. Hence List::Priority is a
+good choice if one of the following conditions is true:
+
+=over
+
+=item * you need one of its unusual features, like the ability to remove both
+high- and low-priority items, or to constrain the list's capacity,
+
+=item * you need to do a lot of inserting, but the list will never contain more
+than a few thousand different priority levels.
+
+=back
+
+If neither of these describes your use case, another priority queue
+implementation like L<POE::XS::Queue::Array> may perform better.
+
 I'd like to thank Joseph N. Hall and Randal L. Schwartz for their
 excellent book "Effective Perl Programming" for one of the code hacks.
 
@@ -206,11 +223,10 @@ This option is deprecated, and may disappear in a future release.
 
   $result = $p_list->insert($priority, $scalar);
 
-Inserts the scalar to the list.
+Inserts the scalar to the list. Time taken is approximately constant.
 
-C<$priority> must be numeric.
-
-C<$scalar> can be any scalar, including references (objects).
+C<$priority> must be numeric. C<$scalar> can be any scalar, including
+references (objects).
 
 Returns 1 on success, and a string describing the error upon failure.
 
@@ -219,6 +235,9 @@ Returns 1 on success, and a string describing the error upon failure.
   $object = $p_list->pop();
 
 Extracts the highest-priority scalar from the list.
+Time taken is approximately linear in the number of I<priorities> already in
+the list.
+
 As an optional argument, takes the specific priority value to pop from, instead
 of the most important one.
 
@@ -233,6 +252,8 @@ Returns the object on success, C<undef> upon failure.
   $object = $p_list->shift();
 
 Extracts the B<lowest>-priority scalar from the list.
+Time taken is approximately linear in the number of I<priorities> already in
+the list.
 
 As an optional argument, takes the specific priority value to shift from,
 instead of the least important one.
@@ -248,6 +269,7 @@ Returns the object on success, C<undef> upon failure.
   $num_elts = $p_list->size();
 
 Takes no arguments. Returns the number of elements in the priority queue.
+Time taken is constant.
 
 =item B<capacity>
 
@@ -259,6 +281,8 @@ Get/set the list's capacity. If called with an argument, sets the capacity to
 that value, discarding any excess low-priority items. To make the capacity
 infinite (the default for new lists), call C<capacity()> with an explicit
 undefined argument.
+Time taken is O($old_capacity - $new_capacity) if $new_capacity <
+$old_capacity, constant otherwise.
 
 Returns the (new) capacity.
 
