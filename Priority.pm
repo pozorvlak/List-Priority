@@ -59,31 +59,41 @@ sub insert {
 	return 1;
 }
 
-sub pop {
-	# Arguments check
-	croak 'List::Priority - Pop expected 1 or 2 arguments!'
-		if (scalar(@_) != 1 and scalar(@_) != 2);
-	my ($self, $top_priority) = @_;
+# Helper method for pop() and shift()
+# If $priority is defined, return the first-in element with that priority.
+# Otherwise, use $minmax() to find the best priority in the set, and
+# extract the first element with that priority.
+sub _extract {
+	my ($self, $priority, $minmax) = @_;
 	return undef if ($self->{size} == 0);
-	if (defined($top_priority)) {
-		return undef unless (defined($self->{queues}{$top_priority}));
+	if (defined($priority)) {
+		return undef unless (defined($self->{queues}{$priority}));
 	} else {
-		# Find out the top priority
-		($top_priority) = max(keys %{$self->{queues}});
-		return undef unless (defined ($top_priority));
+		# Find out the extreme (top or bottom) priority
+		($priority) = $minmax->(keys %{$self->{queues}});
+		return undef unless (defined ($priority));
 	}
 	# Remove the queue's first element
-	my $object = shift (@{$self->{queues}{$top_priority}});
+	my $object = shift (@{$self->{queues}{$priority}});
 	# If the queue is now empty - delete it
-	delete $self->{queues}{$top_priority}
-		if (scalar(@{$self->{queues}{$top_priority}}) == 0);
+	delete $self->{queues}{$priority}
+		if (scalar(@{$self->{queues}{$priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
 	if (wantarray) {
-		return ($top_priority, $object);
+		return ($priority, $object);
 	} else {
 		return $object;
 	}
+}
+	
+
+sub pop {
+	# Arguments check
+	croak 'List::Priority - pop expected 1 or 2 arguments!'
+		if (scalar(@_) != 1 and scalar(@_) != 2);
+	my ($self, $top_priority) = @_;
+	return $self->_extract($top_priority, \&max);
 }
 
 sub shift {
@@ -91,26 +101,7 @@ sub shift {
 	croak 'List::Priority - shift expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 	my ($self, $bottom_priority) = @_;
-	return undef if ($self->{size} == 0);
-	if (defined($bottom_priority)) {
-		return undef unless (defined($self->{queues}{$bottom_priority}));
-	} else {
-		# Find out the bottom priority
-		($bottom_priority) = min(keys %{$self->{queues}});
-		return undef unless (defined ($bottom_priority));
-	}
-	# Remove the queue's last element
-	my $object = CORE::pop (@{$self->{queues}{$bottom_priority}});
-	# If the queue is now empty - delete it
-	delete $self->{queues}{$bottom_priority}
-		if (scalar(@{$self->{queues}{$bottom_priority}}) == 0);
-	# Return the object I just shifted out of the queue
-	--$self->{size};
-	if (wantarray) {
-		return ($bottom_priority, $object);
-	} else {
-		return $object;
-	}
+	return $self->_extract($bottom_priority, \&min);
 }
 
 sub size {
