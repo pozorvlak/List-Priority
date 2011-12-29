@@ -203,7 +203,7 @@ list with the list attributes.
 
 The maximum size of the list.
 
-Inserting after the size is reached will result either in a no-op, or the
+Inserting after the capacity is reached will result either in a no-op, or the
 removal of the most recent lowest priority objects, according to the
 C<insert()>'s priority.
 
