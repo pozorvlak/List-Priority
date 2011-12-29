@@ -14,6 +14,8 @@ Revision history for Perl extension List::Priority.
 
 	- Removed the restriction on duplicate items.
 
+	- pop/shift now return a (priority, item) pair if called in list context.
+
 	- Some documentation clarifications.
 
 0.03  Tue Dec 20
