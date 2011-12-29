@@ -1,6 +1,6 @@
 Revision history for Perl extension List::Priority.
 
-0.04  Sun Dec 25 2011
+0.04  Thu 29 Dec 2011
 	- Various API changes (as detailed below): be sure to update client
 	  code.
 
@@ -18,7 +18,7 @@ Revision history for Perl extension List::Priority.
 
 	- Some documentation clarifications.
 
-0.03  Tue Dec 20
+0.03  Tue 20 Dec 2011
 	- Bugfix release: use this version if you really, really need to stick
 	  to the v0.02 API.
 
