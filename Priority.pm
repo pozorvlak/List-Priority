@@ -79,7 +79,11 @@ sub pop {
 		if (scalar(@{$self->{queues}{$top_priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
-	return $object;
+	if (wantarray) {
+		return ($top_priority, $object);
+	} else {
+		return $object;
+	}
 }
 
 sub shift {
@@ -102,7 +106,11 @@ sub shift {
 		if (scalar(@{$self->{queues}{$bottom_priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
-	return $object;
+	if (wantarray) {
+		return ($bottom_priority, $object);
+	} else {
+		return $object;
+	}
 }
 
 sub size {
@@ -245,7 +253,9 @@ of the most important one.
   # NB: _not_ the first-added object whose priority is >= 3
   $best_object_p3 = $list->pop(3);
 
-Returns the object on success, C<undef> upon failure.
+In list context, returns the (priority, object) pair on sucesss, and C<undef>
+on failure. In scalar context, returns the object on success, and C<undef> on
+failure.
 
 =item B<shift>
 
@@ -262,7 +272,9 @@ instead of the least important one.
   # NB: _not_ the first-added object whose priority is <= 3
   $worst_object_p3 = $list->shift(3);
 
-Returns the object on success, C<undef> upon failure.
+In list context, returns the (priority, object) pair on sucesss, C<undef> on
+failure. In scalar context, returns the object on success, C<undef> on
+failure.
 
 =item B<size>
 
