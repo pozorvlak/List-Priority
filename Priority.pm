@@ -7,8 +7,7 @@ use vars qw($VERSION);
 use Carp;
 use List::Util qw/min max/;
 
-$VERSION = '0.04';
-
+$VERSION = '0.05';
 
 # Constructor. Enables Inheritance
 sub new {
@@ -80,15 +79,10 @@ sub _extract {
 		if (scalar(@{$self->{queues}{$priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
-	if (wantarray) {
-		return ($priority, $object);
-	} else {
-		return $object;
-	}
+	return ($priority, $object);
 }
-	
 
-sub pop {
+sub pop2 {
 	# Arguments check
 	croak 'List::Priority - pop expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
@@ -96,12 +90,22 @@ sub pop {
 	return $self->_extract($top_priority, \&max);
 }
 
-sub shift {
+sub shift2 {
 	# Arguments check
 	croak 'List::Priority - shift expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 	my ($self, $bottom_priority) = @_;
 	return $self->_extract($bottom_priority, \&min);
+}
+
+sub pop {
+	my $self = shift;
+	return ($self->pop2(@_))[1];
+}
+
+sub shift {
+	my $self = shift;
+	return ($self->shift2(@_))[1];
 }
 
 sub size {
