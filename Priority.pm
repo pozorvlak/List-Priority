@@ -64,7 +64,7 @@ sub _extract {
 	return undef if ($self->{size} == 0);
 	return undef unless (defined ($priority));
 	# Remove the queue's first element
-	my $object = shift (@{$self->{queues}{$priority}});
+	my $object = CORE::shift (@{$self->{queues}{$priority}});
 	# If the queue is now empty - delete it
 	delete $self->{queues}{$priority}
 		if (scalar(@{$self->{queues}{$priority}}) == 0);
@@ -91,16 +91,14 @@ sub lowest_priority {
 
 sub pop {
 	# Arguments check
-	croak 'List::Priority - pop expected 1 or 2 arguments!'
-		if (scalar(@_) != 1 and scalar(@_) != 2);
+	croak 'List::Priority - pop expected 1 argument' if (scalar(@_) != 1);
 	my ($self) = @_;
 	return $self->_extract($self->highest_priority);
 }
 
 sub shift {
 	# Arguments check
-	croak 'List::Priority - shift expected 1 or 2 arguments!'
-		if (scalar(@_) != 1 and scalar(@_) != 2);
+	croak 'List::Priority - shift expected 1 argument' if (scalar(@_) != 1);
 	my ($self) = @_;
 	return $self->_extract($self->lowest_priority);
 }
