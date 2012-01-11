@@ -27,9 +27,7 @@ for my $count (6..12) {
 }
 is($list->size(), 16, "Size of list is now 16");
 
-is($list->pop(7), 'element7', 'First element with prio 7');
-is($list->size(), 15, "Size lowered by pop-with-argument");
 is($list->shift(), 'World!', 'Least important element');
-is($list->size(), 14, "Size lowered by shifting");
+is($list->size(), 15, "Size lowered by shifting");
 
 done_testing;

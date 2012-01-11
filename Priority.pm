@@ -64,13 +64,8 @@ sub insert {
 # Otherwise, use $minmax() to find the best priority in the set, and
 # extract the first element with that priority.
 sub _extract {
-	my ($self, $priority, $get_priority) = @_;
+	my ($self, $priority) = @_;
 	return undef if ($self->{size} == 0);
-	if (defined($priority)) {
-		return undef unless (defined($self->{queues}{$priority}));
-	} else {
-		$priority = $get_priority->($self);
-	}
 	return undef unless (defined ($priority));
 	# Remove the queue's first element
 	my $object = shift (@{$self->{queues}{$priority}});
@@ -102,16 +97,16 @@ sub pop {
 	# Arguments check
 	croak 'List::Priority - pop expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
-	my ($self, $top_priority) = @_;
-	return $self->_extract($top_priority, \&highest_priority);
+	my ($self) = @_;
+	return $self->_extract($self->highest_priority);
 }
 
 sub shift {
 	# Arguments check
 	croak 'List::Priority - shift expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
-	my ($self, $bottom_priority) = @_;
-	return $self->_extract($bottom_priority, \&lowest_priority);
+	my ($self) = @_;
+	return $self->_extract($self->lowest_priority);
 }
 
 sub size {
@@ -247,16 +242,7 @@ Extracts the highest-priority scalar from the list.
 Time taken is approximately linear in the number of I<priorities> already in
 the list.
 
-As an optional argument, takes the specific priority value to pop from, instead
-of the most important one.
-
-  # first-added object whose priority is 3
-  # NB: _not_ the first-added object whose priority is >= 3
-  $best_object_p3 = $list->pop(3);
-
-In list context, returns the (priority, object) pair on sucesss, and C<undef>
-on failure. In scalar context, returns the object on success, and C<undef> on
-failure.
+Returns the highest-priority object on success, and C<undef> on failure.
 
 =item B<shift>
 
@@ -266,16 +252,7 @@ Extracts the B<lowest>-priority scalar from the list.
 Time taken is approximately linear in the number of I<priorities> already in
 the list.
 
-As an optional argument, takes the specific priority value to shift from,
-instead of the least important one.
-
-  # first-added object whose priority is 3
-  # NB: _not_ the first-added object whose priority is <= 3
-  $worst_object_p3 = $list->shift(3);
-
-In list context, returns the (priority, object) pair on sucesss, C<undef> on
-failure. In scalar context, returns the object on success, C<undef> on
-failure.
+Returns the lowest-priority object on success, C<undef> on failure.
 
 =item B<size>
 
