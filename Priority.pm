@@ -80,14 +80,9 @@ sub _extract {
 		if (scalar(@{$self->{queues}{$priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
-	if (wantarray) {
-		return ($priority, $object);
-	} else {
-		return $object;
-	}
+	return $object;
 }
 	
-
 sub pop {
 	# Arguments check
 	croak 'List::Priority - pop expected 1 or 2 arguments!'
