@@ -241,6 +241,20 @@ the list.
 
 Returns the lowest-priority object on success, C<undef> on failure.
 
+=item B<highest_priority>
+
+  $priority = $p_list->highest_priority();
+
+Returns the priority of the highest-priority item. Time taken is linear in the
+number of priorities in the list.
+
+=item B<lowest_priority>
+
+  $priority = $p_list->lowest_priority();
+
+Returns the priority of the lowest-priority item. Time taken is linear in the
+number of priorities in the list.
+
 =item B<size>
 
   $num_elts = $p_list->size();
