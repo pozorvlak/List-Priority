@@ -20,6 +20,7 @@ sub new {
 		my %options = @_;
 		$self->{options} = \%options;
 	}
+	$self->_mark_all_dirty;
 	$self->{size} = 0;
 	return $self;
 }
@@ -52,6 +53,7 @@ sub insert {
 	# Insert
 	push(@{$self->{queues}{$priority}}, $object);
 	++$self->{size};
+	$self->_mark_all_dirty;
 	return 1;
 }
 
@@ -60,7 +62,7 @@ sub insert {
 # Otherwise, use $minmax() to find the best priority in the set, and
 # extract the first element with that priority.
 sub _extract {
-	my ($self, $priority) = @_;
+	my ($self, $priority, $end) = @_;
 	return undef if ($self->{size} == 0);
 	return undef unless (defined ($priority));
 	# Remove the queue's first element
@@ -70,23 +72,52 @@ sub _extract {
 		if (scalar(@{$self->{queues}{$priority}}) == 0);
 	# Return the object I just shifted out of the queue
 	--$self->{size};
+	# Mark relevant ends as dirty
+	if ($self->size == 0) {
+		$self->_mark_all_dirty;
+	} else {
+		$self->_mark_dirty($end);
+	}
+	$self->_mark_dirty($end);
 	return $object;
 }
 
 # Find out the extreme (top or bottom) priority
 sub _extreme_priority {
-	my ($self, $minmax) = @_;
-	return $minmax->(keys %{$self->{queues}});
+	my ($self, $minmax, $end) = @_;
+	if ($self->_is_clean($end)) {
+		return $self->{extremes}{$end};
+	}
+	my $priority = $minmax->(keys %{$self->{queues}});
+	$self->_cache_priority($priority, $end);
+	return $priority;
 }
 
 sub highest_priority {
 	my $self = shift;
-	return $self->_extreme_priority(\&max);
+	return $self->_extreme_priority(\&max, "top");
 }
 
 sub lowest_priority {
 	my $self = shift;
-	return $self->_extreme_priority(\&min);
+	return $self->_extreme_priority(\&min, "bottom");
+}
+
+sub _mark_dirty {
+	my ($self, $end) = @_;
+	$self->{dirty}{$end} = 1;
+}
+
+sub _mark_all_dirty {
+	my $self = shift;
+	$self->_mark_dirty("top");
+	$self->_mark_dirty("bottom");
+}
+
+sub _cache_priority {
+	my ($self, $priority, $end) = @_;
+	$self->{extremes}{$end} = $priority;
+	$self->{dirty}{$end} = 0;
 }
 
 sub pop {
