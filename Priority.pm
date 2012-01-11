@@ -18,10 +18,6 @@ sub new {
 	bless $self, $class;
 	if (@_) {
 		my %options = @_;
-		if (!exists $options{capacity} && exists $options{SIZE}) {
-			$options{capacity} = $options{SIZE};
-		}
-		delete $options{SIZE};
 		$self->{options} = \%options;
 	}
 	$self->{size} = 0;
@@ -213,13 +209,6 @@ removal of the most recent lowest priority objects, according to the
 C<insert()>'s priority.
 
   $list = List::Priority->new(capacity => 10);
-
-=item * B<SIZE>
-
-A synonym for C<capacity>, retained for backwards compatibility. If you specify
-both a C<SIZE> and a C<capacity> parameter, C<SIZE> will be ignored.
-
-This option is deprecated, and may disappear in a future release.
 
 =back
 

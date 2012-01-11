@@ -26,11 +26,6 @@ is $list->size(), 5, "Size-constrained list doesn't grow beyond capacity";
 is $list->pop(), 9, "High-priority items aren't evicted";
 is $list->shift(), 5, "Low-priority items are evicted";
 
-# Tests for deprecated SIZE option
-capacity_ok(List::Priority->new(SIZE => 17), 17, "SIZE option works");
-capacity_ok(List::Priority->new(SIZE => 17, capacity => 9), 9,
-	"If SIZE and capacity both given, capacity wins");
-
 # Tests for altering capacity
 my $l = List::Priority->new(capacity => 3);
 is $l->capacity, 3, "capacity getter works";
