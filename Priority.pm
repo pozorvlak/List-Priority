@@ -64,12 +64,12 @@ sub insert {
 # Otherwise, use $minmax() to find the best priority in the set, and
 # extract the first element with that priority.
 sub _extract {
-	my ($self, $priority, $minmax) = @_;
+	my ($self, $priority, $get_priority) = @_;
 	return undef if ($self->{size} == 0);
 	if (defined($priority)) {
 		return undef unless (defined($self->{queues}{$priority}));
 	} else {
-		$priority = $self->_extreme_priority($minmax);
+		$priority = $get_priority->($self);
 	}
 	return undef unless (defined ($priority));
 	# Remove the queue's first element
@@ -103,7 +103,7 @@ sub pop {
 	croak 'List::Priority - pop expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 	my ($self, $top_priority) = @_;
-	return $self->_extract($top_priority, \&max);
+	return $self->_extract($top_priority, \&highest_priority);
 }
 
 sub shift {
@@ -111,7 +111,7 @@ sub shift {
 	croak 'List::Priority - shift expected 1 or 2 arguments!'
 		if (scalar(@_) != 1 and scalar(@_) != 2);
 	my ($self, $bottom_priority) = @_;
-	return $self->_extract($bottom_priority, \&min);
+	return $self->_extract($bottom_priority, \&lowest_priority);
 }
 
 sub size {
