@@ -69,10 +69,9 @@ sub _extract {
 	if (defined($priority)) {
 		return undef unless (defined($self->{queues}{$priority}));
 	} else {
-		# Find out the extreme (top or bottom) priority
-		($priority) = $minmax->(keys %{$self->{queues}});
-		return undef unless (defined ($priority));
+		$priority = $self->_extreme_priority($minmax);
 	}
+	return undef unless (defined ($priority));
 	# Remove the queue's first element
 	my $object = shift (@{$self->{queues}{$priority}});
 	# If the queue is now empty - delete it
@@ -82,7 +81,23 @@ sub _extract {
 	--$self->{size};
 	return $object;
 }
-	
+
+# Find out the extreme (top or bottom) priority
+sub _extreme_priority {
+	my ($self, $minmax) = @_;
+	return $minmax->(keys %{$self->{queues}});
+}
+
+sub highest_priority {
+	my $self = shift;
+	return $self->_extreme_priority(\&max);
+}
+
+sub lowest_priority {
+	my $self = shift;
+	return $self->_extreme_priority(\&min);
+}
+
 sub pop {
 	# Arguments check
 	croak 'List::Priority - pop expected 1 or 2 arguments!'
