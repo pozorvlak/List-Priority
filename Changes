@@ -1,6 +1,6 @@
 Revision history for Perl extension List::Priority.
 
-0.05  2012-02-27 21:20
+0.05  2012-03-11 14:30
 	- Removed deprecated SIZE option.
 
 	- Removed context-sensitivity of pop and shift.
