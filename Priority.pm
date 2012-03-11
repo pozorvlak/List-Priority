@@ -29,9 +29,7 @@ sub insert {
 	# Arguments check
 	croak 'List::Priority - Expected 3 arguments!' if (scalar(@_) != 3);
 	# Argument assignment
-	my $self = shift;
-	my $priority = shift;
-	my $object = shift;
+	(my $self, my $priority, my $object) = @_;
 	# Check that priority is numeric - Thanks Randel/Joseph!
 	croak 'List::Priority - Priority must be numeric!'
 		if ((~$priority & $priority) ne '0');
@@ -42,7 +40,7 @@ sub insert {
 		# And the object's priority is higher than the lowest on the list
 		# - remove the lowest one to insert it
 		if ($priority > $bottom_priority) {
-			$self->shift($bottom_priority);
+			$self->_extract($bottom_priority);
 		}
 		# Else, just return - the list is full.
 		else {
